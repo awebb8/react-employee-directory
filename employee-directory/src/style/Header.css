@@ -1,0 +1,8 @@
+.header {
+    padding: 40px 0;
+    color: blue;
+    background-color: grey;
+    width: 100%;
+    text-align: center;
+    border-bottom: 7px solid maroon;
+}
