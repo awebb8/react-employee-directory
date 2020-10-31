@@ -1,8 +1,9 @@
 .header {
     padding: 40px 0;
-    color: blue;
-    background-color: grey;
+    color: steelblue;
+    font-weight: bold;
+    background-color: #eaf8c3;
     width: 100%;
     text-align: center;
-    border-bottom: 7px solid maroon;
+    border-bottom: 7px solid steelblue;
 }
