@@ -1,19 +1,21 @@
 import React from "react";
-import API from '../utility/API'
+import API from '../utility/API';
 
 class EmployeeTable extends React.Component {
     state = {
         result: [],
         filter: [],
-        search: ""
+        search: "",
+        sort: false
     }
+
     componentDidMount(){
         this.employeeDirectory();
     }
 
     employeeDirectory = () =>{
         API.getUsers()
-        // .then(res => console.log(res.data))
+        //   .then(res => console.log(res.data))
           .then(res => this.setState({ result: res.data.results}))
           .then(res => this.setState({ filter: this.state.result}))
           .catch(err => console.log(err))
@@ -24,22 +26,51 @@ class EmployeeTable extends React.Component {
         this.setState({ filter: filtered })
     }
 
-    render(){
+    handleSort = event => {
+        event.preventDefault();
+        // let sortingAlphabetically = false;
+        const sorted = this.state.result.sort((first, compareFirst) => {
+            let firstA = first.name.first.toUpperCase();
+            let firstB = compareFirst.name.first.toUpperCase();
 
+            let comparison = 0;
+            if (firstA> firstB) {
+                comparison = 1;
+            } else if (firstA< firstB) {
+                comparison = -1;
+            }
+            if (this.state.sort == false){
+                return comparison
+            } else {
+                return comparison * -1;
+            }
+        })
+        this.state.sort ? this.setState({ sort: false}) : this.setState({ sort: true})
+        console.log(this.state.sort)
+        // this.setState({ sort: sortingAlphabetically })
+        this.setState({ result: sorted })
+    }
+
+    render(){
         return(
             <>
-            <form className="form-inline my-2 my-lg-0">
+            <br></br>
+            <form className="form-inline submit-form justify-content-center">
             <input className="form-control mr-sm-2" onChange={this.handleInputChange} type="search" placeholder="Search" aria-label="Search"/>
-            <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <button className="btn btn-outline-success submit-btn" type="submit">Search</button>
             </form> 
+            <br></br>
 
             <table className="table">
                 <thead>
                     <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">Image</th>
+                    <th scope="col" className="sort-name" onClick={this.handleSort}>
+                        Name <span class="glyphicon">&#xe119;</span>
+                    </th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">DOB</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,6 +81,7 @@ class EmployeeTable extends React.Component {
                                 <td>{element.name.first} {element.name.last}</td>
                                 <td>{element.phone}</td>
                                 <td>{element.email}</td>
+                                <td>{element.dob.date.replace(/T.*/, "")}</td>
                             </tr>
                         ))
                     }
@@ -58,6 +90,6 @@ class EmployeeTable extends React.Component {
             </>
         )
     }
-
 }
+
 export default EmployeeTable;
