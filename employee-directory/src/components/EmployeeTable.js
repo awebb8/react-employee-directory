@@ -66,7 +66,7 @@ class EmployeeTable extends React.Component {
                     <tr>
                     <th scope="col">Image</th>
                     <th scope="col" className="sort-name" onClick={this.handleSort}>
-                        Name <span class="glyphicon">&#xe119;</span>
+                        Name <span className="glyphicon">&#xe119;</span>
                     </th>
                     <th scope="col">Phone</th>
                     <th scope="col">Email</th>
